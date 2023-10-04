@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Todolist = ({ title, tasks = [], removeTask, changeFilter, addTask, changeStatus,filter }) => {
+const Todolist = ({ title, tasks = [], removeTask, changeFilter, addTask, changeStatus, filter }) => {
     const [userTask, setuserTask] = useState();
     const [error, seterror] = useState(null);
 
@@ -38,8 +38,9 @@ const Todolist = ({ title, tasks = [], removeTask, changeFilter, addTask, change
     };
 
     return (
-        <div style={{ marginRight: "50px" }}>
-            <h1>{title}</h1>
+        <div className="todo-container">
+
+            <h1 className="todo-title">{title}</h1>
 
             <input
                 value={userTask}
@@ -47,34 +48,35 @@ const Todolist = ({ title, tasks = [], removeTask, changeFilter, addTask, change
                 onKeyPress={onPressHandler}
                 type="text"
                 placeholder="Enter task"
-                className={error ? "error" : ""}
+                className={`todo-input ${error ? "error" : ""}`}
             />
 
-            <button type="submit" onClick={addTaskHandler}>
+            <button type="submit" className="add-btn" onClick={addTaskHandler}>
                 +
             </button>
             {error && <div className="error-message">{error}</div>}
 
-            <ul>
+            <ul className="todo-list">
                 {
                     tasks.map((task) => (
 
-                        <li key={task.id} className={task.isDone? "is-done": ""}>
+                        <li key={task.id} className={`todo-item ${task.isDone ? "is-done" : ""}`}>
                             <input type="checkbox" onChange={(e) => changeStatus(task.id, e.currentTarget.checked)} checked={task.isDone} />
                             {task.title}
-                            <span>
-                                <button onClick={() => removeTask(task.id)}>x</button>
+                            <span className="todo-text">
+                                <button className="remove-btn" onClick={() => removeTask(task.id)}>x</button>
                             </span>
                         </li>
                     ))
                 }
             </ul>
-            <div>
-                <button className={filter==='all' ? "active-filter" : ""} onClick={onAllClickedHandler}>All</button>
-                <button className={filter==='active' ? "active-filter" : ""} onClick={onActiveClickedHandler}>Active</button>
-                <button className={filter==='completed' ? "active-filter" : ""} onClick={onCompletedClickedHandler}>Completed</button>
+            <div className="actions">
+                <button className={filter === 'all' ? "active-filter" : "actions-btn"} onClick={onAllClickedHandler}>All</button>
+                <button className={filter === 'active' ? "active-filter" : "actions-btn"} onClick={onActiveClickedHandler}>Active</button>
+                <button className={filter === 'completed' ? "active-filter" : "actions-btn"} onClick={onCompletedClickedHandler}>Completed</button>
             </div>
         </div>
+
     );
 };
 

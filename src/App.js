@@ -47,18 +47,20 @@ function App() {
     filteredArray = tasks.filter((task) => task.isDone === false);
   }
 
-  function changeStatus(taskId, check) {
-   
-    let task = tasks.find(task => task.id === taskId);
-    if (task) {
-      tasks.isDone = check;
-    }
-    //add changed Task to copy init Array use spred [...tasks]
-    setTasks([...tasks]);
+
+  function changeStatus(taskId, isDone) {
+    debugger
+    // Find the task by taskId
+    const updatedTasks = tasks.map((task) =>
+      task.id === taskId ? { ...task, isDone } : task
+    );
+  
+    setTasks(updatedTasks);
   }
+  
 
   return (
-    <div style={{ display: "flex" }}>
+    <div className="container">
       <Todolist
         title="Projects for today"
         tasks={filteredArray}
