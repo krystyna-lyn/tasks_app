@@ -8,70 +8,114 @@ export const filterValues = "all" | "active" | "completed";
 
 function App() {
 
-  let [tasks, setTasks] = useState([
-    { id: v1(), title: "CSS", isDone: true },
-    { id: v1(), title: "JS", isDone: false },
-    { id: v1(), title: "React", isDone: false },
-    { id: v1(), title: "Angular", isDone: true },
-  ]);
+  function removeTask(id, todolistId) {
+    let tasks = tasksObj[todolistId]
 
-  let [filter, setFilter] = useState(filterValues);
-
-  function removeTask(id) {
     let filteredTasks = tasks.filter((task) => task.id !== id);
-    setTasks(filteredTasks);
+    tasksObj[todolistId] = filteredTasks;
+    setTasks({ ...tasksObj });
   }
 
-  function addTask(title) {
-    let newTask = {
+  function addTask(title, todolistId) {
+    // Create a new task object
+    const newTask = {
       id: v1(),
       title: title,
       isDone: false,
     };
-     //add changed Task to init Array use spred [...tasks]
-    let newTasks = [newTask, ...tasks];
-    setTasks(newTasks);
+    // Copy the existing tasks for the specified todolist
+    const existingTasks = tasksObj[todolistId] || [];
+    // Add the new task to the existing tasks
+    const updatedTasks = [...existingTasks, newTask];
+    tasksObj[todolistId] = updatedTasks;
+    // Update the tasks object
+    setTasks({ ...tasksObj });
   }
 
-  function changeFilter(value) {
-    setFilter(value);
-  }
-
-  let filteredArray = tasks;
-
-  if (filter === "completed") {
-    filteredArray = tasks.filter((task) => task.isDone === true);
-  }
-
-  if (filter === "active") {
-    filteredArray = tasks.filter((task) => task.isDone === false);
-  }
-
-
-  function changeStatus(taskId, isDone) {
+  function changeStatus(taskId, isDone, todolistId) {
     debugger
-    // Find the task by taskId
+    // Find array the task by todolistId
+    let tasks = tasksObj[todolistId];
+
     const updatedTasks = tasks.map((task) =>
-      task.id === taskId ? { ...task, isDone } : task
-    );
-  
-    setTasks(updatedTasks);
+      task.id === taskId);
+    if (updatedTasks) {
+      updatedTasks.isDone = isDone
+      setTasks({ ...tasksObj });
+    }
   }
-  
+
+
+  let todolistId1 = v1();
+  let todolistId2 = v1();
+
+  let [todolists, setTodolists] = useState([
+
+    { id: todolistId1, title: 'What to learn', filter: 'completed' },
+    { id: todolistId2, title: 'What to buy', filter: 'active' },
+
+  ])
+
+  let [tasksObj, setTasks] = useState({
+    [todolistId1]: [
+      { id: v1(), title: "CSS", isDone: true },
+      { id: v1(), title: "JS", isDone: false },
+      { id: v1(), title: "React", isDone: false },
+      { id: v1(), title: "Angular", isDone: true },
+    ],
+    [todolistId2]: [
+      { id: v1(), title: "Book", isDone: false },
+      { id: v1(), title: "Milk", isDone: true }
+
+    ]
+  })
+
+
+
+  function changeFilter(value, todolistId) {
+    let newTodolist = todolists.map(
+      (todolist) => todolist.id === todolistId ? { ...todolist, filter: value } : todolist)
+    setTodolists(newTodolist);
+  }
+
 
   return (
     <div className="container">
-      <Todolist
-        title="Projects for today"
-        tasks={filteredArray}
-        removeTask={removeTask}
-        changeFilter={changeFilter}
-        addTask={addTask}
-        changeStatus={changeStatus}
-        filter={filter}
-      />
+      {todolists.map((todo) => {
+        if (todo && todo.filter) {
+          let filteredArray = tasksObj[todo.id];
+
+          if (todo.filter === "completed") {
+            filteredArray = filteredArray.filter((task) => task.isDone === true);
+          }
+
+          if (todo.filter === "active") {
+            filteredArray = filteredArray.filter((task) => task.isDone === false);
+          }
+
+          if (todo.filter === "all") {
+            filteredArray = tasksObj[todo.id];
+          }
+
+          return (
+            <Todolist
+              key={todo.id}
+              id={todo.id}
+              title={todo.title}
+              tasks={filteredArray}
+              removeTask={removeTask}
+              changeFilter={changeFilter}
+              addTask={addTask}
+              changeStatus={changeStatus}
+              filter={todo.filter}
+            />
+          );
+        }
+        return null; // Return null for invalid or undefined todo objects
+      })}
     </div>
   );
+
 }
 
 export default App;
