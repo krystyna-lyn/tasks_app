@@ -24,7 +24,7 @@ function App() {
       isDone: false,
     };
     // Copy the existing tasks for the specified todolist
-    const existingTasks = tasksObj[todolistId] || [];
+    const existingTasks = tasksObj[todolistId];
     // Add the new task to the existing tasks
     const updatedTasks = [...existingTasks, newTask];
     tasksObj[todolistId] = updatedTasks;
@@ -33,18 +33,15 @@ function App() {
   }
 
   function changeStatus(taskId, isDone, todolistId) {
-    debugger
-    // Find array the task by todolistId
+
     let tasks = tasksObj[todolistId];
 
     const updatedTasks = tasks.map((task) =>
-      task.id === taskId);
-    if (updatedTasks) {
-      updatedTasks.isDone = isDone
-      setTasks({ ...tasksObj });
-    }
+      task.id === taskId ? { ...task, isDone } : task
+    );
+    // Update the tasksObj state for the specified todolistId
+    setTasks({ ...tasksObj, [todolistId]: updatedTasks });
   }
-
 
   let todolistId1 = v1();
   let todolistId2 = v1();
