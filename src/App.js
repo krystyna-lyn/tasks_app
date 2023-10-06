@@ -3,6 +3,7 @@ import "./App.css";
 import Todolist from "./components/Todolist";
 import { useState } from "react";
 import { v1 } from "uuid";
+import AddItemForm from "./components/AddItemForm";
 
 export const filterValues = "all" | "active" | "completed";
 
@@ -53,6 +54,14 @@ function App() {
 
   ])
 
+  let removeTodolist = (todolistId) => {
+    let filteredTodolists = todolists.filter((todolist) => todolist.id !== todolistId);
+    setTodolists(filteredTodolists);
+    delete tasksObj[todolistId];
+    setTasks({ ...tasksObj })
+
+  }
+
   let [tasksObj, setTasks] = useState({
     [todolistId1]: [
       { id: v1(), title: "CSS", isDone: true },
@@ -75,41 +84,58 @@ function App() {
     setTodolists(newTodolist);
   }
 
+  function addTodolist(title) {
+    let newTodolist = {
+      id: v1(),
+      filter: "all",
+      title: title,
+    }
+    setTodolists([newTodolist, ...todolists]);
+    setTasks({ ...tasksObj, [newTodolist.id]: [] })
+
+  }
+
 
   return (
-    <div className="container">
-      {todolists.map((todo) => {
-        if (todo && todo.filter) {
-          let filteredArray = tasksObj[todo.id];
+    <div>
+      <AddItemForm addTask={addTodolist} />
 
-          if (todo.filter === "completed") {
-            filteredArray = filteredArray.filter((task) => task.isDone === true);
+      <div className="container">
+
+        {todolists.map((todo) => {
+          if (todo && todo.filter) {
+            let filteredArray = tasksObj[todo.id];
+
+            if (todo.filter === "completed") {
+              filteredArray = filteredArray.filter((task) => task.isDone === true);
+            }
+
+            if (todo.filter === "active") {
+              filteredArray = filteredArray.filter((task) => task.isDone === false);
+            }
+
+            if (todo.filter === "all") {
+              filteredArray = tasksObj[todo.id];
+            }
+
+            return (
+              <Todolist
+                key={todo.id}
+                id={todo.id}
+                title={todo.title}
+                tasks={filteredArray}
+                removeTask={removeTask}
+                changeFilter={changeFilter}
+                addTask={addTask}
+                changeStatus={changeStatus}
+                filter={todo.filter}
+                removeTodolist={removeTodolist}
+              />
+            );
           }
-
-          if (todo.filter === "active") {
-            filteredArray = filteredArray.filter((task) => task.isDone === false);
-          }
-
-          if (todo.filter === "all") {
-            filteredArray = tasksObj[todo.id];
-          }
-
-          return (
-            <Todolist
-              key={todo.id}
-              id={todo.id}
-              title={todo.title}
-              tasks={filteredArray}
-              removeTask={removeTask}
-              changeFilter={changeFilter}
-              addTask={addTask}
-              changeStatus={changeStatus}
-              filter={todo.filter}
-            />
-          );
-        }
-        return null; // Return null for invalid or undefined todo objects
-      })}
+          return null; // Return null for invalid or undefined todo objects
+        })}
+      </div>
     </div>
   );
 

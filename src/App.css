@@ -19,10 +19,16 @@ body {
     box-sizing: border-box;
 }
 
-
 .todo-title {
     font-size: 24px;
     margin-bottom: 20px;
+    display: inline-block;
+}
+
+.remove-todolist {
+    float: right;
+    cursor: pointer;
+    margin-right: 10px;
 }
 
 .todo-list {
@@ -72,6 +78,7 @@ body {
 }
 
 .remove-btn,
+.remove-todolist,
 .add-btn {
     background-color: #ff6b6b;
     color: #fff;
