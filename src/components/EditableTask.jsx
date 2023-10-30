@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { TextField } from '@mui/material';
 
 const EditableTask = ({ title, onChange }) => {
 
@@ -19,7 +20,7 @@ const EditableTask = ({ title, onChange }) => {
 
     return editMode
 
-        ? <input value={changedTitle} onChange={onChangehandler} onBlur={activateViewMode} autoFocus />
+        ? <TextField value={changedTitle} onChange={onChangehandler} onBlur={activateViewMode} autoFocus />
         : <span onDoubleClick={activateEditMode}>{title}</span>
 
 

@@ -1,7 +1,9 @@
 import React from 'react';
 import { useState } from 'react';
+import { Box, Button, IconButton, TextField } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 
-const AddItemForm = ({addTask,id}) => {
+const AddItemForm = ({ addTask, id }) => {
 
     const [userTask, setuserTask] = useState();
     const [error, seterror] = useState(null);
@@ -32,21 +34,33 @@ const AddItemForm = ({addTask,id}) => {
 
 
     return (
-        <div>
-            <input
+
+        <Box>
+
+            <TextField
+                id="filled-basic"
+                label="Enter task"
+                variant="standard"
+                autoFocus
+                required
+                error={!!error}
+                helperText= {error}
+
                 value={userTask}
                 onChange={userTaskHandler}
                 onKeyPress={onPressHandler}
                 type="text"
-                placeholder="Enter task"
-                className={`todo-input ${error ? "error" : ""}`}
             />
+            <IconButton sx={{margin:'10px'}} type="submit" color="primary" onClick={addTaskHandler}>
+                <AddIcon/>
+            </IconButton>
 
-            <button type="submit" className="add-btn" onClick={addTaskHandler}>
-                +
-            </button>
-            {error && <div className="error-message">{error}</div>}
-        </div>
+            
+
+        </Box>
+
+
+
     )
 }
 

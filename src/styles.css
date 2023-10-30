@@ -1,0 +1,109 @@
+.todo-container {
+    background-color: #fff;
+    margin: 50px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.todo-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+.remove-todolist {
+    float: right;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.todo-list {
+    list-style: none;
+    padding: 0;
+}
+
+.todo-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.is-done {
+    opacity: 0.5;
+}
+
+.todo-text {
+    flex-grow: 1;
+    margin-left: 10px;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.actions-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.actions-btn:hover {
+    color: #ff6b6b;
+}
+
+.todo-input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 80%;
+}
+
+.remove-btn,
+.remove-todolist,
+.add-btn {
+    background-color: #ff6b6b;
+    color: #fff;
+    border: none;
+    padding: 2px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+.add-btn {
+    padding: 10px 15px;
+}
+
+
+.remove-btn:hover,
+.add-btn:hover {
+    background-color: #d32f2f;
+}
+
+.error-message {
+    color: #ff6b6b;
+    font-size: 14px;
+}
+
+.error {
+    border: #ff6b6b 1px solid;
+}
+
+/* Active filter button */
+.active-filter {
+    background-color: #ff6b6b;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}

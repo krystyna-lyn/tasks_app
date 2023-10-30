@@ -4,6 +4,7 @@ import Todolist from "./components/Todolist";
 import { useState } from "react";
 import { v1 } from "uuid";
 import AddItemForm from "./components/AddItemForm";
+import { Box } from "@mui/material";
 
 export const filterValues = "all" | "active" | "completed";
 
@@ -122,8 +123,11 @@ function App() {
 
 
   return (
-    <div>
-      <AddItemForm addTask={addTodolist} />
+    <Box>
+      <Box sx={{ display: 'flex', justifyContent: 'center' }} >
+        <AddItemForm addTask={addTodolist} />
+      </Box>
+
 
       <div className="container">
 
@@ -163,7 +167,7 @@ function App() {
           return null; // Return null for invalid or undefined todo objects
         })}
       </div>
-    </div>
+    </Box>
   );
 
 }
