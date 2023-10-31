@@ -4,7 +4,10 @@ import Todolist from "./components/Todolist";
 import { useState } from "react";
 import { v1 } from "uuid";
 import AddItemForm from "./components/AddItemForm";
-import { Box } from "@mui/material";
+import { Box, Toolbar, Typography, Button, IconButton, AppBar, Container, Grid, Paper } from "@mui/material";
+import { Menu } from "@mui/icons-material";
+
+
 
 export const filterValues = "all" | "active" | "completed";
 
@@ -121,52 +124,78 @@ function App() {
 
   }
 
-
   return (
     <Box>
-      <Box sx={{ display: 'flex', justifyContent: 'center' }} >
-        <AddItemForm addTask={addTodolist} />
-      </Box>
+
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+          >
+            <Menu />
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            News
+          </Typography>
+          <Button color="inherit">Login</Button>
+        </Toolbar>
+      </AppBar>
+
+      <Container fixed>
+        <Grid container sx={{padding: '20px'}}>
+          <AddItemForm addTask={addTodolist} />
+        </Grid>
 
 
-      <div className="container">
 
-        {todolists.map((todo) => {
-          if (todo && todo.filter) {
-            let filteredArray = tasksObj[todo.id];
+        <Grid container spacing={3}>
 
-            if (todo.filter === "completed") {
-              filteredArray = filteredArray.filter((task) => task.isDone === true);
+          {todolists.map((todo) => {
+            if (todo && todo.filter) {
+              let filteredArray = tasksObj[todo.id];
+
+              if (todo.filter === "completed") {
+                filteredArray = filteredArray.filter((task) => task.isDone === true);
+              }
+
+              if (todo.filter === "active") {
+                filteredArray = filteredArray.filter((task) => task.isDone === false);
+              }
+
+              if (todo.filter === "all") {
+                filteredArray = tasksObj[todo.id];
+              }
+
+              return (
+                <Grid item xs={12} sm={4} key={todo.id}>
+                  <Paper sx={{padding: '20px'}}>
+                  <Todolist
+                    key={todo.id}
+                    id={todo.id}
+                    title={todo.title}
+                    tasks={filteredArray}
+                    removeTask={removeTask}
+                    changeFilter={changeFilter}
+                    addTask={addTask}
+                    changeStatus={changeStatus}
+                    changeTitle={changeTitle}
+                    filter={todo.filter}
+                    removeTodolist={removeTodolist}
+                    changeTodolistTitle={changeTodolistTitle}
+                  />
+                  </Paper>
+                </Grid>
+              );
             }
+            return null; // Return null for invalid or undefined todo objects
+          })}
+        </Grid>
 
-            if (todo.filter === "active") {
-              filteredArray = filteredArray.filter((task) => task.isDone === false);
-            }
-
-            if (todo.filter === "all") {
-              filteredArray = tasksObj[todo.id];
-            }
-
-            return (
-              <Todolist
-                key={todo.id}
-                id={todo.id}
-                title={todo.title}
-                tasks={filteredArray}
-                removeTask={removeTask}
-                changeFilter={changeFilter}
-                addTask={addTask}
-                changeStatus={changeStatus}
-                changeTitle={changeTitle}
-                filter={todo.filter}
-                removeTodolist={removeTodolist}
-                changeTodolistTitle={changeTodolistTitle}
-              />
-            );
-          }
-          return null; // Return null for invalid or undefined todo objects
-        })}
-      </div>
+      </Container>
     </Box>
   );
 

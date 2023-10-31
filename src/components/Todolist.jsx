@@ -22,7 +22,7 @@ const Todolist = ({ title, tasks = [], removeTask, changeFilter, addTask, change
 
     return (
 
-        <Box sx={{ width: '400px', padding: '20px' }}>
+        <Box>
 
             <h1 className="todo-title">
                 <EditableTask
@@ -38,12 +38,12 @@ const Todolist = ({ title, tasks = [], removeTask, changeFilter, addTask, change
 
             <AddItemForm addTask={addTasks} />
 
-            <ul className="todo-list">
+            <div className="todo-list">
 
                 {
                     tasks.map((task) => (
 
-                        <li key={task.id} className={`todo-item ${task.isDone ? "is-done" : ""}`}>
+                        <div key={task.id} className={`todo-item ${task.isDone ? "is-done" : ""}`}>
 
 
                             <Checkbox
@@ -61,11 +61,11 @@ const Todolist = ({ title, tasks = [], removeTask, changeFilter, addTask, change
                             <IconButton onClick={() => removeTask(task.id, id)}>
                                 <Delete color='primary' />
                             </IconButton>
-                        </li>
+                        </div>
                     ))
                 }
-            </ul>
-            
+            </div>
+
             <div className="actions">
                 <Button
                     variant={filter === 'all' ? "outlined" : "text"}
