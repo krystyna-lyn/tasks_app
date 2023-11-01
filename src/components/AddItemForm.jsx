@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { Box, Button, IconButton, TextField } from '@mui/material';
+import { Box, IconButton, TextField } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
 const AddItemForm = ({ addTask, id }) => {
@@ -36,7 +36,6 @@ const AddItemForm = ({ addTask, id }) => {
     return (
 
         <Box>
-
             <TextField
                 id="filled-basic"
                 label="Enter task"
@@ -44,22 +43,17 @@ const AddItemForm = ({ addTask, id }) => {
                 autoFocus
                 required
                 error={!!error}
-                helperText= {error}
+                helperText={error}
 
                 value={userTask}
                 onChange={userTaskHandler}
                 onKeyPress={onPressHandler}
                 type="text"
             />
-            <IconButton sx={{margin:'10px'}} type="submit" color="primary" onClick={addTaskHandler}>
-                <AddIcon/>
+            <IconButton sx={{ margin: '10px' }} type="submit" color="primary" onClick={addTaskHandler}>
+                <AddIcon />
             </IconButton>
-
-            
-
         </Box>
-
-
 
     )
 }

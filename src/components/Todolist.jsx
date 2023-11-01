@@ -34,8 +34,6 @@ const Todolist = ({ title, tasks = [], removeTask, changeFilter, addTask, change
                 </IconButton>
             </h1>
 
-
-
             <AddItemForm addTask={addTasks} />
 
             <div className="todo-list">
@@ -80,12 +78,11 @@ const Todolist = ({ title, tasks = [], removeTask, changeFilter, addTask, change
                     onClick={onCompletedClickedHandler} >Completed
                 </Button>
             </div>
+
         </Box>
 
     );
 };
-
-
 
 export default Todolist;
 

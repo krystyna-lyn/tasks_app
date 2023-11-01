@@ -7,7 +7,6 @@ const EditableTask = ({ title, onChange }) => {
     let [changedTitle, setChangedTitle] = useState("");
 
 
-
     const activateEditMode = () => {
         setEditMode(true);
         setChangedTitle(title)
